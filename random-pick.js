@@ -39,6 +39,21 @@ function showCount() {
     $('.feedback span:eq(-1)').stop(true).text(count).hide().fadeIn(1000).fadeOut(1000);
 }
 
+window.onbeforeunload = function () {
+    console.log('onbeforeunload');
+    saveItems();
+}
+
+function saveItems() {
+    if (localStorage) {
+        var items = [];
+        $('.elements p.element input').each(function() {
+            items.push($(this).val());
+        });
+        localStorage['randompick.items'] = JSON.stringify(items);
+    }
+}
+
 $(document).ready(function() {
     // remove element
     $('.elements').on('click', 'p.element a.cross', function(e) {
@@ -84,10 +99,20 @@ $(document).ready(function() {
         return false;
     });
     // create elements
-    for (var i = 0; i < msv.length; i++) {
+    var items = msv;
+    if (localStorage) {
+        if (localStorage['randompick.items']) {
+            var lsitems = JSON.parse(localStorage['randompick.items']);
+            if (lsitems != null && lsitems.length > 0) {
+                items = lsitems;
+            }
+        }
+        items = items || msv;
+    }
+    for (var i = 0; i < items.length; i++) {
         (function(index) {
             setTimeout(function() {
-                $('.elements').append(getItem(msv[index]));
+                $('.elements').append(getItem(items[index]));
             }, (index+1) * 111);
         })(i);
         count++;
