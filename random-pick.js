@@ -51,12 +51,14 @@ $(document).ready(function() {
         var elementCount = $('.elements p.element').length;
         var winnerIndex = random.next(elementCount);
         console.log(winnerIndex + " /" + "0.." + (elementCount - 1));
-        $('.elements p.element').removeClass('tilecolor2048').each(function(e) {
+        $('.elements p.element').removeClass('transition tilecolor2048').each(function(e) {
             $(this).find('span').removeClass('winner');
         });
-        $('.elements p.element').eq(winnerIndex).addClass('tilecolor2048').each(function(e) {
-            $(this).find('span').addClass('winner');
-        });
+        setTimeout(function() {
+            $('.elements p.element').eq(winnerIndex).addClass('transition tilecolor2048').each(function(e) {
+                $(this).find('span').addClass('winner');
+            });
+        }, 0);
         return false;
     });
     // add command

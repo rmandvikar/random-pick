@@ -45,8 +45,7 @@ div.elements span:empty:focus::before {
     display: inline-block;
 }
 */
-div,
-p {
+.transition {
     -webkit-transition: all 1s ease-in-out;
     -moz-transition: all 1s ease-in-out;
     -o-transition: all 1s ease-in-out;
