@@ -24,6 +24,7 @@ Random.prototype.next = function(limit) {
 
 var random = new Random();
 var msv = ['foo', 'bar', 'baz', 'qux', 'norf'];
+var count = 0;
 
 function getItem(item) {
     return '<p class="element rounded">' +
@@ -33,7 +34,6 @@ function getItem(item) {
 }
 
 function showCount() {
-    var count = $('.elements p.element').length;
     $('.feedback span:eq(-1)').stop(true).text(count).hide().fadeIn(1000).fadeOut(1000);
 }
 
@@ -42,6 +42,7 @@ $(document).ready(function() {
     $('.elements').on('click', 'p.element a.cross', function(e) {
         e.preventDefault();
         $(this).parent().remove();
+        count--;
         showCount();
         return false;
     });
@@ -64,13 +65,19 @@ $(document).ready(function() {
     // add command
     $('.commands a.add').click(function(e) {
         e.preventDefault();
-        $('.elements').append(getItem());
+        $(getItem()).hide().appendTo('.elements').fadeIn();
+        count++;
         showCount();
         return false;
     });
     // create elements
     for (var i = 0; i < msv.length; i++) {
-        $('.elements').append(getItem(msv[i]));
+        (function(index) {
+            setTimeout(function() {
+                $('.elements').append(getItem(msv[index]));
+            }, (index+1) * 111);
+        })(i);
+        count++;
     }
     // avoid enter key in editable
     $('.elements').on('keypress', '[contenteditable=true]', function(e) {
@@ -83,7 +90,7 @@ $(document).ready(function() {
     $('div.pick').fadeIn(1000);
     setTimeout(function() {
         showCount();
-    }, 0);
+    }, 1000);
 });
 
 //}
