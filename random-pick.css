@@ -103,6 +103,18 @@ a.cross:active {
     bottom: 0;
     right: 0;
 }
+.horns::before {
+    content: "`";
+}
+.horns::after {
+    content: "´";
+}
+.nohorns::before {
+    content: "\00a0";
+}
+.nohorns::after {
+    content: "\00a0";
+}
 
 /* http://gabrielecirulli.github.io/2048/style/main.css */
 

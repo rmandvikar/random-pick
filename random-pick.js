@@ -25,6 +25,7 @@ Random.prototype.next = function(limit) {
 var random = new Random();
 var msv = ['foo', 'bar', 'baz', 'qux', 'norf'];
 var count = 0;
+var isbiased = false;
 
 function getItem(item) {
     return '<p class="element rounded">' +
@@ -51,6 +52,14 @@ $(document).ready(function() {
         e.preventDefault();
         var elementCount = $('.elements p.element').length;
         var winnerIndex = random.next(elementCount);
+        if (isbiased) {
+            $('.elements p.element').each(function(index) {
+                if ($(this).find('span').text().toLowerCase() == "hippy") {
+                    winnerIndex = index;
+                    return false;
+                }
+            });
+        }
         console.log(winnerIndex + " /" + "0.." + (elementCount - 1));
         $('.elements p.element').removeClass('transition tilecolor2048').each(function(e) {
             $(this).find('span').removeClass('winner');
@@ -91,6 +100,12 @@ $(document).ready(function() {
     setTimeout(function() {
         showCount();
     }, 1000);
+    // bias hack
+    $('.footer').click(function() {
+        isbiased = !isbiased;
+        console.log(isbiased);
+        $('.footer a').toggleClass('horns nohorns');
+    });
 });
 
 //}
