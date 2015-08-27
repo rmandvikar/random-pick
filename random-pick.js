@@ -38,6 +38,15 @@ function showCount() {
     $('.feedback span:eq(-1)').stop(true).text(count).hide().fadeIn(1000).fadeOut(1000);
 }
 
+// http://stackoverflow.com/questions/6139107/programatically-select-text-in-a-contenteditable-html-element
+function selectElementContents(el) {
+    var range = document.createRange();
+    range.selectNodeContents(el);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+}
+
 $(document).ready(function() {
     // remove element
     $('.elements').on('click', 'p.element a.cross', function(e) {
@@ -94,6 +103,10 @@ $(document).ready(function() {
             e.preventDefault();
             return false;
         }
+    });
+    // select text on click
+    $('.elements').on('focus', '[contenteditable=true]', function(e) {
+        selectElementContents($(this)[0]);
     });
     // show
     $('div.pick').fadeIn(1000);
